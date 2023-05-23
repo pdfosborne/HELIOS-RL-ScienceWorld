@@ -27,17 +27,10 @@ def main():
     time = datetime.now().strftime("%d-%m-%Y_%H-%M")
     save_dir = './output/'+str('test')+'_'+time 
 
-    # --------------------------------------------------------------------
-    # Flat Baselines
-    flat = STANDARD_RL(Config=ExperimentConfig, LocalConfig=ProblemConfig, 
-                Environment=Environment,
-                save_dir=save_dir, show_figures = 'No', window_size=0.1)
-    flat.train()  
-    flat.test()
-    # --------------------------------------------------------------------
+    
     # HELIOS Approaches
     num_plans = 1
-    num_explor_epi = 20
+    num_explor_epi = 1000
     sim_threshold = 0.95
 
     observed_states = None
@@ -47,7 +40,7 @@ def main():
                         Environment=Environment,
                         save_dir = save_dir+'/Reinforced_Instr_Experiment',
                         num_plans = num_plans, number_exploration_episodes=num_explor_epi, sim_threshold=sim_threshold,
-                        feedback_increment = 0.25, feedback_repeats=1,
+                        feedback_increment = 0.1, feedback_repeats=1,
                         observed_states=observed_states, instruction_results=instruction_results)
 
     # Don't provide any instruction information, will be defined by command line input
@@ -61,9 +54,18 @@ def main():
     reinforced_experiment = HELIOS_OPTIMIZE(Config=ExperimentConfig, LocalConfig=ProblemConfig, 
                     Environment=Environment,
                     save_dir=save_dir+'/Reinforced_Instr_Experiment', show_figures = 'No', window_size=0.1,
-                    instruction_path=None, predicted_path=instruction_results)
+                    instruction_path=None, predicted_path=instruction_results, instruction_episode_ratio=0.1)
     reinforced_experiment.train()
     reinforced_experiment.test()
+    
+    # --------------------------------------------------------------------
+    # Flat Baselines
+    flat = STANDARD_RL(Config=ExperimentConfig, LocalConfig=ProblemConfig, 
+                Environment=Environment,
+                save_dir=save_dir, show_figures = 'No', window_size=0.1)
+    flat.train()  
+    flat.test()
+    # --------------------------------------------------------------------
     
 
 if __name__=='__main__':

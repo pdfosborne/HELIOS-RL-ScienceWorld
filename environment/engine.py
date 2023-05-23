@@ -16,11 +16,11 @@ class Engine:
         inventory = self.Environment.inventory()
         look = self.Environment.look()
         
-        obs = obs.replace('\n\t',' ').replace('\n', '')
-        inventory = inventory.replace('\n\t',' ').replace('\n', '')
+        obs = obs.replace('\n\t',' ').replace('\n', ' ').replace('  ', ' ')
+        inventory = inventory.replace('\n\t',' ').replace('\n', ' ').replace('  ', ' ')
         look = look.replace(': \n\t',': ').replace(':\n\t',': ').replace('\n\t',', ').replace('\n', '. ')
-        obs_output = obs + '. ' + inventory + '. ' + look
-        print(obs_output)
+        obs_output = obs + inventory + look 
+
         return obs_output
 
     
@@ -32,12 +32,14 @@ class Engine:
             
         obs, reward, terminated, _ = self.Environment.step(action)
         inventory = self.Environment.inventory()
-        look = self.Environment.look()
 
-        obs = obs.replace('\n\t',' ').replace('\n', '')
-        inventory = inventory.replace('\n\t',' ').replace('\n', '')
-        look = look.replace(': \n\t',': ').replace(':\n\t',': ').replace('\n\t',', ').replace('\n', '. ')
-        obs_output = obs + '. ' + inventory + '. ' + look
+        obs = obs.replace('\n\t',' ').replace('\n', ' ').replace('  ', ' ')
+        inventory = inventory.replace('\n\t',' ').replace('\n', ' ').replace('  ', ' ')
+        
+        obs_output = obs + " " + inventory + '. '
+        
+        # look = self.Environment.look()
+        # look = look.replace(': \n\t',': ').replace(':\n\t',': ').replace('\n\t',', ').replace('\n', '. ')
 
         return obs_output, reward, terminated
 
