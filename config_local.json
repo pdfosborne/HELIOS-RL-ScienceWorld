@@ -1,7 +1,7 @@
 {
- "adapter_select": ["Language"],
+ "adapter_select": ["Language", "Language"],
  "training_action_cap": 1000,
  "testing_action_cap":1000,
- "reward_signal": [100,-0.05,-10],
+ "reward_signal": [5,0,-0.025],
  "sub_goal": "None"
 }
